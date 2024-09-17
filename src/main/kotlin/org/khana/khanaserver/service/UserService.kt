@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor
 import org.khana.khanaserver.data.entity.UserEntity
 import org.khana.khanaserver.exception.UserException
 import org.khana.khanaserver.repository.UserRepository
+import org.khana.khanaserver.service.mapper.toUserEntity
+import org.khana.khanaserver.service.model.UserDto
 import org.khana.khanaserver.util.LocalDateTimeUtil.now
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
@@ -19,8 +21,8 @@ class UserService(
 ){
 
 
-    fun saveNewUser(user: UserEntity) {
-        userRepository.save(user.copy(createdAt = LocalDateTime.now().toInstant(UTC).toEpochMilliseconds()))
+    fun saveNewUser(user: UserDto) {
+        userRepository.save(user.toUserEntity())
     }
 
     val allUsers: List<UserEntity>
