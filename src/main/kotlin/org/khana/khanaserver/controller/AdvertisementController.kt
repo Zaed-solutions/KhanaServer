@@ -3,12 +3,10 @@ package org.khana.khanaserver.controller
 import org.khana.khanaserver.data.response.GenericResponse
 import org.khana.khanaserver.service.AdvertisementService
 import org.khana.khanaserver.service.model.AdvertisementDto
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
-@RestController("/advertisements")
+@RestController
+@RequestMapping("/advertisements")
 class AdvertisementController(
     val advertisementService: AdvertisementService
 ) {
