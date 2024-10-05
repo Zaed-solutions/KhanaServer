@@ -3,13 +3,10 @@ package org.khana.khanaserver.service.mapper
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone.Companion.UTC
 import kotlinx.datetime.toInstant
+import org.apache.commons.lang3.concurrent.UncheckedFuture.map
 import org.bson.types.ObjectId
-import org.khana.khanaserver.data.entity.AdvertisementEntity
-import org.khana.khanaserver.data.entity.CategoryEntity
-import org.khana.khanaserver.data.entity.UserEntity
-import org.khana.khanaserver.service.model.AdvertisementDto
-import org.khana.khanaserver.service.model.CategoryDto
-import org.khana.khanaserver.service.model.UserDto
+import org.khana.khanaserver.data.entity.*
+import org.khana.khanaserver.service.model.*
 import org.khana.khanaserver.util.LocalDateTimeUtil.now
 
 fun List<AdvertisementEntity>.toAdvertisementsDto() = map { it.toAdvertisementDto() }
@@ -27,6 +24,8 @@ fun AdvertisementDto.toAdvertisementEntity() = AdvertisementEntity(
 )
 
 fun List<CategoryEntity>.toCategoriesDto() = map { it.toCategoryDto() }
+fun List<CategoryEntity>.tolabels() = map { it.asLabel() }
+fun List<ProductEntity>.toProductsDto() = map { it.toProductDto() }
 
 fun CategoryDto.toCategoryEntity() = CategoryEntity(
     categoryImage = this.categoryImage,
@@ -37,7 +36,7 @@ fun CategoryEntity.toCategoryDto() = CategoryDto(
     categoryImage = this.categoryImage,
     categoryTitle = this.categoryTitle,
 )
-
+fun CategoryEntity.asLabel()= categoryTitle
 fun UserDto.toUserEntity() = UserEntity(
     id = ObjectId().toString(),
     createdAt = LocalDateTime.now().toInstant(UTC).toEpochMilliseconds(),
@@ -56,5 +55,42 @@ fun UserEntity.toUserDto() = UserDto(
     phoneNumber = phoneNumber,
     providerName = providerName,
     createdAt = createdAt,
-
 )
+fun ProductDto.toProductEntity() = ProductEntity(
+    id = id,
+    name = name,
+    rating = rating,
+    thumbnailImageLink = thumbnailImageLink,
+    previewImagesLinks = previewImagesLinks,
+    category = category.toCategoryEntity(),
+    details = details,
+    availableSizes = availableSizes,
+    availableHexColors = availableHexColors,
+    basePrice = basePrice,
+    isAvailable = isAvailable,
+)
+fun ProductEntity.toProductDto() = ProductDto(
+    id = id,
+    name = name,
+    rating = rating,
+    thumbnailImageLink = thumbnailImageLink,
+    previewImagesLinks = previewImagesLinks,
+    category = category.toCategoryDto(),
+    details = details,
+    availableSizes = availableSizes,
+    availableHexColors = availableHexColors,
+    basePrice = basePrice,
+    isAvailable = isAvailable,
+)
+fun CartItemEntity.toCartItemDto() = CartItemDto(
+    id = id,
+    userId = userId,
+    productId = productId,
+    productName = productName,
+    productThumbnail = productThumbnail,
+    productColor = productColor,
+    productSize = productSize,
+    productBasePrice = productBasePrice,
+    quantity = quantity,
+)
+fun List<CartItemEntity>.toCartItemsDto() = map { it.toCartItemDto() }
