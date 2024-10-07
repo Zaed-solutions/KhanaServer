@@ -16,33 +16,43 @@ class CartController(
     fun addItemToCart(
         @RequestParam productId: String,
         @RequestParam userId: String,
-        @RequestParam productColor: org.khana.khanaserver.service.model.Color,
+        @RequestParam productColorName: String,
+        @RequestParam productColorHex: String,
         @RequestParam productSize: String
     ) = GenericResponse(
         code = 200,
         message = "Success",
-        data = cartService.addItemToCart(productSize = productSize, userId = userId, productId = productId, productColor = productColor)
+        data = cartService.addItemToCart(
+            productSize = productSize,
+            userId = userId,
+            productId = productId,
+            productColor = org.khana.khanaserver.service.model.Color(productColorName, productColorHex)
+        )
     )
-    @GetMapping("/fetchPromoCodeDiscountPercentage")
-    fun fetchPromoCodeDiscountPercentage(@RequestParam promoCode: String)=GenericResponse(
+
+    @GetMapping("/promoCodeDiscountPercentage")
+    fun fetchPromoCodeDiscountPercentage(@RequestParam promoCode: String) = GenericResponse(
         code = 200,
         message = "Success",
         data = cartService.fetchPromoCodeDiscountPercentage(promoCode)
     )
+
     @PutMapping("/updateItemQuantity")
-    fun updateItemQuantity(@RequestParam cartItemId: String, @RequestParam newQuantity: Int) =GenericResponse(
+    fun updateItemQuantity(@RequestParam cartItemId: String, @RequestParam newQuantity: Int) = GenericResponse(
         code = 200,
         message = "Success",
         data = cartService.updateItemQuantity(cartItemId, newQuantity)
     )
+
     @DeleteMapping("/removeCartItem")
-    fun removeCartItem(@RequestParam cartItemId: String) =GenericResponse(
+    fun removeCartItem(@RequestParam cartItemId: String) = GenericResponse(
         code = 200,
         message = "Success",
         data = cartService.removeCartItem(cartItemId)
     )
+
     @GetMapping("/userCartItems")
-    fun fetchUserCartItems(@RequestParam userId: String) =GenericResponse(
+    fun fetchUserCartItems(@RequestParam userId: String) = GenericResponse(
         code = 200,
         message = "Success",
         data = cartService.fetchUserCartItems(userId)
