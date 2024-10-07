@@ -30,7 +30,7 @@ class CartController(
         )
     )
 
-    @GetMapping("/fetchPromoCodeDiscountPercentage")
+    @GetMapping("/promoCodeDiscountPercentage")
     fun fetchPromoCodeDiscountPercentage(@RequestParam promoCode: String) = GenericResponse(
         code = 200,
         message = "Success",
