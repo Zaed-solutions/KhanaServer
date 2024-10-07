@@ -11,6 +11,7 @@ interface ProductService {
     fun flashSaleEndTime(): Long
     fun insertFlashSaleEndTime(endTime:Long)
     fun getAllByCategoryTitle(title: String): List<ProductDto>
+    fun getAllByLabel(label: String): List<ProductDto>
     fun getWishlistedProductsIdsByUserId(userId: String): List<String>
     fun addWishlistedProduct(userId: String, productId: String)
     fun removeWishlistedProduct(userId: String, productId: String)
