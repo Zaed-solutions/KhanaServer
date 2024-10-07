@@ -25,7 +25,7 @@ class ProductServiceImpl(
         productRepository.save(productDto.toProductEntity())
     }
 
-    override fun fetchLabels(): List<String> = categoryRepository.findAll().tolabels()
+    override fun fetchLabels(): List<String> = listOf("All", "Most Recent", "Most Popular")
     override fun flashSaleEndTime(): Long = flashSaleRepository.findFirstByOrderByEndTimeDesc()?.endTime ?: 0L
     override fun insertFlashSaleEndTime(endTime: Long) {
         flashSaleRepository.save(
@@ -37,6 +37,13 @@ class ProductServiceImpl(
 
     override fun getAllByCategoryTitle(title: String) =
         productRepository.findAllByCategory_categoryTitle(title).toProductsDto()
+
+    override fun getAllByLabel(label: String): List<ProductDto> {
+        return when(label){
+            "All" -> productRepository.findAll().toProductsDto()
+            else -> emptyList()
+        }
+    }
 
     override fun getWishlistedProductsIdsByUserId(userId: String) =
         wishListRepository.findByUserId(userId)?.products?.map { it.id }?: emptyList()

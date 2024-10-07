@@ -14,6 +14,7 @@ class UserController(
     val userService: UserService,
 ) {
 
+
     @GetMapping("/all")
     fun getAllUsers() =
         GenericResponse(

@@ -3,7 +3,6 @@ package org.khana.khanaserver.service.mapper
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone.Companion.UTC
 import kotlinx.datetime.toInstant
-import org.apache.commons.lang3.concurrent.UncheckedFuture.map
 import org.bson.types.ObjectId
 import org.khana.khanaserver.data.entity.*
 import org.khana.khanaserver.service.model.*
@@ -63,9 +62,9 @@ fun ProductDto.toProductEntity() = ProductEntity(
     thumbnailImageLink = thumbnailImageLink,
     previewImagesLinks = previewImagesLinks,
     category = category.toCategoryEntity(),
-    details = details,
+    description = description,
     availableSizes = availableSizes,
-    availableHexColors = availableHexColors,
+    availableColors = availableColors,
     basePrice = basePrice,
     isAvailable = isAvailable,
 )
@@ -76,9 +75,9 @@ fun ProductEntity.toProductDto() = ProductDto(
     thumbnailImageLink = thumbnailImageLink,
     previewImagesLinks = previewImagesLinks,
     category = category.toCategoryDto(),
-    details = details,
+    description = description,
     availableSizes = availableSizes,
-    availableHexColors = availableHexColors,
+    availableColors = availableColors,
     basePrice = basePrice,
     isAvailable = isAvailable,
 )

@@ -56,11 +56,17 @@ class ProductController(
         data = productService.insertFlashSaleEndTime(endTime),
     )
 
+    @GetMapping("/byCategory")
+    fun fetchProductsByCategory(@RequestParam categoryTitle: String) = GenericResponse(
+        code = 200,
+        message = "Success",
+        data = productService.getAllByCategoryTitle(categoryTitle)
+    )
     @GetMapping("/byLabel")
     fun fetchProductsByLabel(@RequestParam label: String) = GenericResponse(
         code = 200,
         message = "Success",
-        data = productService.getAllByCategoryTitle(label)
+        data = productService.getAllByLabel(label)
     )
 
     @GetMapping("/byId")
