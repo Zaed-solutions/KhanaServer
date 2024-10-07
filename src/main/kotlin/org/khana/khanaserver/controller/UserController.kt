@@ -8,12 +8,12 @@ import org.khana.khanaserver.service.model.UserDto
 import org.springframework.web.bind.annotation.*
 
 
-@AllArgsConstructor
 @RestController
 @RequestMapping("/users")
 class UserController(
     val userService: UserService,
 ) {
+
 
     @GetMapping("/all")
     fun getAllUsers() =
