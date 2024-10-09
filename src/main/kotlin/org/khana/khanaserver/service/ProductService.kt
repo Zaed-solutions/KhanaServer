@@ -1,7 +1,5 @@
 package org.khana.khanaserver.service
 
-import org.khana.khanaserver.service.model.AdvertisementDto
-import org.khana.khanaserver.service.model.Color
 import org.khana.khanaserver.service.model.ProductDto
 
 interface ProductService {
@@ -17,7 +15,6 @@ interface ProductService {
     fun removeWishlistedProduct(userId: String, productId: String)
     fun findProductById(productId: String): ProductDto
     fun checkIfIsProductWishlisted(userId: String, productId: String): Boolean
-    fun addItemToCart(userId: String, productId: String, productColor: Color, productSize: String)
     fun getWishlistedProductsByUserId(userId: String): List<ProductDto>
-
+    fun searchProductsByName(name: String): List<ProductDto>
 }

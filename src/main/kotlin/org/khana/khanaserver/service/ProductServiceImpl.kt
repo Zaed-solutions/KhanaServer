@@ -7,8 +7,6 @@ import org.khana.khanaserver.repository.*
 import org.khana.khanaserver.service.mapper.toProductDto
 import org.khana.khanaserver.service.mapper.toProductEntity
 import org.khana.khanaserver.service.mapper.toProductsDto
-import org.khana.khanaserver.service.mapper.tolabels
-import org.khana.khanaserver.service.model.Color
 import org.khana.khanaserver.service.model.ProductDto
 import org.springframework.stereotype.Service
 
@@ -39,14 +37,14 @@ class ProductServiceImpl(
         productRepository.findAllByCategory_categoryTitle(title).toProductsDto()
 
     override fun getAllByLabel(label: String): List<ProductDto> {
-        return when(label){
+        return when (label) {
             "All" -> productRepository.findAll().toProductsDto()
             else -> emptyList()
         }
     }
 
     override fun getWishlistedProductsIdsByUserId(userId: String) =
-        wishListRepository.findByUserId(userId)?.products?.map { it.id }?: emptyList()
+        wishListRepository.findByUserId(userId)?.products?.map { it.id } ?: emptyList()
 
     override fun addWishlistedProduct(userId: String, productId: String) {
         val user = userRepository.findById(userId).orElseThrow {
@@ -55,13 +53,14 @@ class ProductServiceImpl(
         val product = productRepository.findById(productId).orElseThrow()
         val result = wishListRepository.findByUserId(userId)
         if (result == null) {
-            wishListRepository.save(WishlistedProductsEntity(
-                user = user,
-                products = listOf(product)
-            ))
-        }else{
+            wishListRepository.save(
+                WishlistedProductsEntity(
+                    user = user, products = listOf(product)
+                )
+            )
+        } else {
             val wishlistedProductsDto = result.products
-            wishListRepository.save(result.copy(products = wishlistedProductsDto+product))
+            wishListRepository.save(result.copy(products = wishlistedProductsDto + product))
         }
 
     }
@@ -69,9 +68,9 @@ class ProductServiceImpl(
     override fun removeWishlistedProduct(userId: String, productId: String) {
         val product = productRepository.findById(productId).orElseThrow()
         val result = wishListRepository.findByUserId(userId)
-        val products = result?.products?: emptyList()
+        val products = result?.products ?: emptyList()
         if (result != null) {
-            wishListRepository.save(result.copy(products =products-product ))
+            wishListRepository.save(result.copy(products = products - product))
         }
     }
 
@@ -80,11 +79,11 @@ class ProductServiceImpl(
         return productId in (result?.products?.map { it.id } ?: emptyList())
     }
 
-    override fun addItemToCart(userId: String, productId: String, productColor: Color, productSize: String) {
-        TODO("Not yet implemented")
-    }
+    override fun getWishlistedProductsByUserId(userId: String) =
+        wishListRepository.findByUserId(userId)?.products?.toProductsDto() ?: emptyList()
 
-    override fun getWishlistedProductsByUserId(userId: String) = wishListRepository.findByUserId(userId)?.products?.toProductsDto()?: emptyList()
+    override fun searchProductsByName(name: String): List<ProductDto> =
+        productRepository.findAllByNameContainingIgnoringCase(name).toProductsDto()
 
-    override fun findProductById(productId: String) =productRepository.findById(productId).orElseThrow().toProductDto()
+    override fun findProductById(productId: String) = productRepository.findById(productId).orElseThrow().toProductDto()
 }

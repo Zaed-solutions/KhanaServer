@@ -111,6 +111,11 @@ class ProductController(
         message = "Success",
         data = productService.removeWishlistedProduct(userId, productId)
     )
-
+    @GetMapping("/byName")
+    fun searchProductsByTitle(@RequestParam name: String) = GenericResponse(
+        code = 200,
+        message = "Success",
+        data = productService.searchProductsByName(name)
+    )
 
 }
