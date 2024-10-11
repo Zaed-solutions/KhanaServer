@@ -39,6 +39,7 @@ class ProductServiceImpl(
         productRepository.findAllByCategory_categoryTitle(title).toProductsDto()
 
     override fun getAllByFilter(filter: ProductFilter): List<ProductDto> = productRepository.findProductsByFilter(filter).toProductsDto()
+
     override fun getWishlistedProductsIdsByUserId(userId: String) =
         wishListRepository.findByUserId(userId)?.products?.map { it.id } ?: emptyList()
 
@@ -83,3 +84,4 @@ class ProductServiceImpl(
 
     override fun findProductById(productId: String) = productRepository.findById(productId).orElseThrow().toProductDto()
 }
+
