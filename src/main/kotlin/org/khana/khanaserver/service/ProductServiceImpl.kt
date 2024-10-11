@@ -8,6 +8,8 @@ import org.khana.khanaserver.service.mapper.toProductDto
 import org.khana.khanaserver.service.mapper.toProductEntity
 import org.khana.khanaserver.service.mapper.toProductsDto
 import org.khana.khanaserver.service.model.ProductDto
+import org.khana.khanaserver.service.model.ProductFilter
+import org.khana.khanaserver.service.model.SortByFilterOption
 import org.springframework.stereotype.Service
 
 @Service
@@ -23,7 +25,7 @@ class ProductServiceImpl(
         productRepository.save(productDto.toProductEntity())
     }
 
-    override fun fetchLabels(): List<String> = listOf("All", "Most Recent", "Most Popular")
+    override fun fetchSortedByOptions(): List<String> = SortByFilterOption.entries.map { it.displayName }
     override fun flashSaleEndTime(): Long = flashSaleRepository.findFirstByOrderByEndTimeDesc()?.endTime ?: 0L
     override fun insertFlashSaleEndTime(endTime: Long) {
         flashSaleRepository.save(
@@ -36,13 +38,7 @@ class ProductServiceImpl(
     override fun getAllByCategoryTitle(title: String) =
         productRepository.findAllByCategory_categoryTitle(title).toProductsDto()
 
-    override fun getAllByLabel(label: String): List<ProductDto> {
-        return when (label) {
-            "All" -> productRepository.findAll().toProductsDto()
-            else -> emptyList()
-        }
-    }
-
+    override fun getAllByFilter(filter: ProductFilter): List<ProductDto> = productRepository.findProductsByFilter(filter).toProductsDto()
     override fun getWishlistedProductsIdsByUserId(userId: String) =
         wishListRepository.findByUserId(userId)?.products?.map { it.id } ?: emptyList()
 

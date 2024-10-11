@@ -1,10 +1,9 @@
 package org.khana.khanaserver.controller
 
 import org.khana.khanaserver.data.response.GenericResponse
-import org.khana.khanaserver.service.CategoryService
 import org.khana.khanaserver.service.ProductService
-import org.khana.khanaserver.service.model.CategoryDto
 import org.khana.khanaserver.service.model.ProductDto
+import org.khana.khanaserver.service.model.ProductFilter
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
-import java.awt.Color
 
 @RestController
 @RequestMapping("/products")
@@ -26,11 +24,11 @@ class ProductController(
         data = productService.getAll()
     )
 
-    @GetMapping("/labels")
-    fun fetchLabels() = GenericResponse(
+    @GetMapping("/sortedByOptions")
+    fun fetchSortedByOptions() = GenericResponse(
         code = 200,
         message = "Success",
-        data = productService.fetchLabels()
+        data = productService.fetchSortedByOptions()
     )
 
     @PostMapping("/insert")
@@ -62,11 +60,11 @@ class ProductController(
         message = "Success",
         data = productService.getAllByCategoryTitle(categoryTitle)
     )
-    @GetMapping("/byLabel")
-    fun fetchProductsByLabel(@RequestParam label: String) = GenericResponse(
+    @GetMapping("/byFilter")
+    fun fetchProductsByFilter(@RequestBody filter: ProductFilter) = GenericResponse(
         code = 200,
         message = "Success",
-        data = productService.getAllByLabel(label)
+        data = productService.getAllByFilter(filter)
     )
 
     @GetMapping("/byId")

@@ -1,15 +1,16 @@
 package org.khana.khanaserver.service
 
 import org.khana.khanaserver.service.model.ProductDto
+import org.khana.khanaserver.service.model.ProductFilter
 
 interface ProductService {
     fun getAll(): List<ProductDto>
     fun insertOne(productDto: ProductDto)
-    fun fetchLabels(): List<String>
+    fun fetchSortedByOptions(): List<String>
     fun flashSaleEndTime(): Long
     fun insertFlashSaleEndTime(endTime:Long)
     fun getAllByCategoryTitle(title: String): List<ProductDto>
-    fun getAllByLabel(label: String): List<ProductDto>
+    fun getAllByFilter(filter: ProductFilter): List<ProductDto>
     fun getWishlistedProductsIdsByUserId(userId: String): List<String>
     fun addWishlistedProduct(userId: String, productId: String)
     fun removeWishlistedProduct(userId: String, productId: String)
