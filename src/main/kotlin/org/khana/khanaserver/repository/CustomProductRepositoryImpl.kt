@@ -20,7 +20,7 @@ class CustomProductRepositoryImpl (
         if (filter.gender != GenderFilterOption.ALL) {
             query.addCriteria(Criteria.where("gender").`is`(filter.gender.displayName))
         }
-        query.addCriteria(Criteria.where("basePrice").gte(filter.priceRange.first).lte(filter.priceRange.second))
+        query.addCriteria(Criteria.where("basePrice").gte(filter.minPrice).lte(filter.maxPrice))
         if (filter.reviews != ReviewsFilterOption.ALL) {
             query.addCriteria(Criteria.where("rating").gte(filter.reviews.minRating))
         }
