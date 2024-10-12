@@ -60,12 +60,14 @@ class ProductController(
         message = "Success",
         data = productService.getAllByCategoryTitle(category)
     )
-    @GetMapping("/byFilter")
-    fun fetchProductsByFilter(@RequestBody filter: ProductFilter) = GenericResponse(
-        code = 200,
-        message = "Success",
-        data = productService.getAllByFilter(filter)
-    )
+    @PostMapping("/byFilter")
+    fun fetchProductsByFilter(@RequestBody filter: ProductFilter): GenericResponse<List<ProductDto>> {
+        return GenericResponse(
+            code = 200,
+            message = "Success",
+            data = productService.getAllByFilter(filter)
+        )
+    }
 
     @GetMapping("/byId")
     fun getProductById(@RequestParam productId: String) = GenericResponse(
