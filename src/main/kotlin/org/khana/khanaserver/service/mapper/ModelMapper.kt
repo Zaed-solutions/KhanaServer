@@ -93,3 +93,22 @@ fun CartItemEntity.toCartItemDto() = CartItemDto(
     quantity = quantity,
 )
 fun List<CartItemEntity>.toCartItemsDto() = map { it.toCartItemDto() }
+fun CouponDto.toEntity() = CouponEntity(
+    id = id,
+    title = title,
+    description = description,
+    code = code,
+    discountPercentage = discountPercentage,
+    maxAmount = maxAmount,
+    minAmount = minAmount,
+)
+fun CouponEntity.toDto() = CouponDto(
+    id = id,
+    title = title,
+    description = description,
+    code = code,
+    discountPercentage = discountPercentage,
+    maxAmount = maxAmount,
+    minAmount = minAmount,
+)
+fun List<CouponEntity>.toDtos() = map { it.toDto() }
