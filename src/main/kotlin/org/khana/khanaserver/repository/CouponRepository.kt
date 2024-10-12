@@ -5,4 +5,6 @@ import org.springframework.data.mongodb.repository.MongoRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface CouponRepository : MongoRepository<CouponEntity, String>
+interface CouponRepository : MongoRepository<CouponEntity, String>{
+    fun findByCode(code: String): CouponEntity
+}
