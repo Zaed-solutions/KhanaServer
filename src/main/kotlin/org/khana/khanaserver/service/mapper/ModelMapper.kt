@@ -90,6 +90,7 @@ fun CartItemEntity.toCartItemDto() = CartItemDto(
     productColor = productColor,
     productSize = productSize,
     productBasePrice = productBasePrice,
+    appliedDiscountPercentage = appliedDiscountPercentage,
     quantity = quantity,
 )
 fun List<CartItemEntity>.toCartItemsDto() = map { it.toCartItemDto() }
@@ -111,4 +112,44 @@ fun CouponEntity.toDto() = CouponDto(
     maxAmount = maxAmount,
     minAmount = minAmount,
 )
-fun List<CouponEntity>.toDtos() = map { it.toDto() }
+fun List<CouponEntity>.toCouponDtos() = map { it.toDto() }
+fun ShippingAddressDto.toEntity() = ShippingAddressEntity(
+    id = id,
+    userId = userId,
+    title = title,
+    country = country,
+    city = city,
+    addressLine = addressLine,
+    phoneNumber = phoneNumber,
+)
+fun ShippingAddressEntity.toDto() = ShippingAddressDto(
+    id = id,
+    userId = userId,
+    title = title,
+    country = country,
+    city = city,
+    addressLine = addressLine,
+    phoneNumber = phoneNumber,
+)
+fun List<ShippingAddressEntity>.toShippingAddressDtos() = map { it.toDto() }
+fun OrderDto.toEntity() = OrderEntity(
+    id = id,
+    userId = userId,
+    cartItemsIds = cartItemsIds,
+    shippingAddress = shippingAddress.toEntity(),
+    shippingType = shippingType,
+    paymentStatus = paymentStatus,
+    orderStatus = orderStatus,
+    totalPrice = totalPrice,
+)
+fun OrderEntity.toDto() = OrderDto(
+    id = id,
+    userId = userId,
+    cartItemsIds = cartItemsIds,
+    shippingAddress = shippingAddress.toDto(),
+    shippingType = shippingType,
+    paymentStatus = paymentStatus,
+    orderStatus = orderStatus,
+    totalPrice = totalPrice,
+)
+fun List<OrderEntity>.toOrderDtos() = map { it.toDto() }
