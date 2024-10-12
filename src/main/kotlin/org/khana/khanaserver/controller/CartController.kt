@@ -1,11 +1,8 @@
 package org.khana.khanaserver.controller
 
 import org.khana.khanaserver.data.response.GenericResponse
-import org.khana.khanaserver.service.AdvertisementService
 import org.khana.khanaserver.service.CartService
-import org.khana.khanaserver.service.model.AdvertisementDto
 import org.springframework.web.bind.annotation.*
-import java.awt.Color
 
 @RestController
 @RequestMapping("/cart")
@@ -30,11 +27,11 @@ class CartController(
         )
     )
 
-    @GetMapping("/promoCodeDiscountPercentage")
-    fun fetchPromoCodeDiscountPercentage(@RequestParam promoCode: String) = GenericResponse(
+    @GetMapping("/applyPromoCode")
+    fun applyPromoCodeDiscountPercentage(@RequestParam promoCode: String, @RequestParam cartItemsIds: List<String>) = GenericResponse(
         code = 200,
         message = "Success",
-        data = cartService.fetchPromoCodeDiscountPercentage(promoCode)
+        data = cartService.applyPromoCode(promoCode, cartItemsIds)
     )
 
     @PutMapping("/updateItemQuantity")
