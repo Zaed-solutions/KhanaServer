@@ -2,20 +2,23 @@ package org.khana.khanaserver.service
 
 import org.khana.khanaserver.data.entity.CartItemEntity
 import org.khana.khanaserver.repository.CartRepository
+import org.khana.khanaserver.repository.CouponRepository
 import org.khana.khanaserver.repository.ProductRepository
 import org.khana.khanaserver.service.mapper.toCartItemsDto
-import org.khana.khanaserver.service.model.CartItemDto
 import org.springframework.stereotype.Service
-import java.awt.Color
 
 @Service
 class CartServiceImpl(
-    val cartRepository: CartRepository,
-    val productRepository: ProductRepository
+    private val cartRepository: CartRepository,
+    private val couponRepository: CouponRepository,
+    private val productRepository: ProductRepository
 ) : CartService {
-    override fun fetchPromoCodeDiscountPercentage(promoCode: String): Float {
-        //TODO
-        return 0f
+    override fun applyPromoCode(promoCode: String, cartItemsIds: List<String>): Float {
+        val couponDiscountPercentage = couponRepository.findByCode(promoCode).discountPercentage
+        cartRepository.findAllById(cartItemsIds).forEach {
+            cartRepository.save(it.copy(appliedDiscountPercentage = couponDiscountPercentage))
+        }
+        return couponDiscountPercentage
     }
 
     override fun updateItemQuantity(cartItemId: String, newQuantity: Int) {
