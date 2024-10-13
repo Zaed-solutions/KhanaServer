@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 @Document(collection = "orders")
 data class OrderEntity(
     @Id
-    val id: String = "",
+    val id: String? = null,
     val userId: String = "",
     val cartItemsIds: List<String> = emptyList(),
     val shippingAddress: ShippingAddressEntity = ShippingAddressEntity(),

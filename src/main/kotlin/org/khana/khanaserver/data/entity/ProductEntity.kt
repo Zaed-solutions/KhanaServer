@@ -11,7 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 @Document(collection = "products")
 data class ProductEntity(
     @Id
-    val id: String = "",
+    val id: String? = null,
     val name: String = "",
     val rating: Float = 0f,
     val thumbnailImageLink: String = "",

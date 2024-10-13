@@ -16,7 +16,7 @@ class ShippingAddressServiceImpl(
         shippingAddressRepository.findAllByUserId(userId).toShippingAddressDtos()
 
     override fun insertOne(shippingAddressDto: ShippingAddressDto) =
-        shippingAddressRepository.save((shippingAddressDto.toEntity())).id
+        shippingAddressRepository.save((shippingAddressDto.toEntity())).id?:""
 
     override fun deleteOne(shippingAddressId: String) {
         shippingAddressRepository.deleteById(shippingAddressId)

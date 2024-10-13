@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 @Document(collection = "shipping_addresses")
 data class ShippingAddressEntity(
     @Id
-    val id: String = "",
+    val id: String? = null,
     val userId: String = "",
     val title: String = "",
     val country: String = "",

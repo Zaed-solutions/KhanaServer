@@ -41,7 +41,7 @@ class ProductServiceImpl(
     override fun getAllByFilter(filter: ProductFilter): List<ProductDto> = productRepository.findProductsByFilter(filter).toProductsDto()
 
     override fun getWishlistedProductsIdsByUserId(userId: String) =
-        wishListRepository.findByUserId(userId)?.products?.map { it.id } ?: emptyList()
+        wishListRepository.findByUserId(userId)?.products?.map { it.id?:"" } ?: emptyList()
 
     override fun addWishlistedProduct(userId: String, productId: String) {
         val user = userRepository.findById(userId).orElseThrow {
