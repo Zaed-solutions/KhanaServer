@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 
 @Document(collection = "Users")
 data class WishlistedProductsEntity(
-    @Id val id: String = "",
+    @Id val id: String? = null,
     val user : UserEntity ,
     val products : List<ProductEntity>,
 )

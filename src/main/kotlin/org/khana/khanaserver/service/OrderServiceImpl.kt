@@ -15,7 +15,7 @@ class OrderServiceImpl(
     override fun fetchByUserId(userId: String): List<OrderDto> = orderRepository.findAllByUserId(userId).toOrderDtos()
 
 
-    override fun insertOne(orderDto: OrderDto) = orderRepository.save(orderDto.toEntity()).id
+    override fun insertOne(orderDto: OrderDto) = orderRepository.save(orderDto.toEntity()).id?:""
 
     override fun deleteOne(orderId: String) = orderRepository.deleteById(orderId)
 }

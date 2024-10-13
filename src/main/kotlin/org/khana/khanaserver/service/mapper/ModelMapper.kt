@@ -23,7 +23,6 @@ fun AdvertisementDto.toAdvertisementEntity() = AdvertisementEntity(
 )
 
 fun List<CategoryEntity>.toCategoriesDto() = map { it.toCategoryDto() }
-fun List<CategoryEntity>.tolabels() = map { it.asLabel() }
 fun List<ProductEntity>.toProductsDto() = map { it.toProductDto() }
 
 fun CategoryDto.toCategoryEntity() = CategoryEntity(
@@ -35,9 +34,8 @@ fun CategoryEntity.toCategoryDto() = CategoryDto(
     categoryImage = this.categoryImage,
     categoryTitle = this.categoryTitle,
 )
-fun CategoryEntity.asLabel()= categoryTitle
 fun UserDto.toUserEntity() = UserEntity(
-    id = ObjectId().toString(),
+    id = id,
     createdAt = LocalDateTime.now().toInstant(UTC).toEpochMilliseconds(),
     email = email,
     password = "",
@@ -56,7 +54,6 @@ fun UserEntity.toUserDto() = UserDto(
     createdAt = createdAt,
 )
 fun ProductDto.toProductEntity() = ProductEntity(
-    id = id,
     name = name,
     rating = rating,
     thumbnailImageLink = thumbnailImageLink,
@@ -69,7 +66,7 @@ fun ProductDto.toProductEntity() = ProductEntity(
     isAvailable = isAvailable,
 )
 fun ProductEntity.toProductDto() = ProductDto(
-    id = id,
+    id = id?:"",
     name = name,
     rating = rating,
     thumbnailImageLink = thumbnailImageLink,
@@ -82,7 +79,7 @@ fun ProductEntity.toProductDto() = ProductDto(
     isAvailable = isAvailable,
 )
 fun CartItemEntity.toCartItemDto() = CartItemDto(
-    id = id,
+    id = id?:"",
     userId = userId,
     productId = productId,
     productName = productName,
@@ -95,7 +92,6 @@ fun CartItemEntity.toCartItemDto() = CartItemDto(
 )
 fun List<CartItemEntity>.toCartItemsDto() = map { it.toCartItemDto() }
 fun CouponDto.toEntity() = CouponEntity(
-    id = id,
     title = title,
     description = description,
     code = code,
@@ -104,7 +100,7 @@ fun CouponDto.toEntity() = CouponEntity(
     minAmount = minAmount,
 )
 fun CouponEntity.toDto() = CouponDto(
-    id = id,
+    id = id?:"",
     title = title,
     description = description,
     code = code,
@@ -114,7 +110,6 @@ fun CouponEntity.toDto() = CouponDto(
 )
 fun List<CouponEntity>.toCouponDtos() = map { it.toDto() }
 fun ShippingAddressDto.toEntity() = ShippingAddressEntity(
-    id = id,
     userId = userId,
     title = title,
     country = country,
@@ -123,7 +118,7 @@ fun ShippingAddressDto.toEntity() = ShippingAddressEntity(
     phoneNumber = phoneNumber,
 )
 fun ShippingAddressEntity.toDto() = ShippingAddressDto(
-    id = id,
+    id = id?:"",
     userId = userId,
     title = title,
     country = country,
@@ -133,7 +128,6 @@ fun ShippingAddressEntity.toDto() = ShippingAddressDto(
 )
 fun List<ShippingAddressEntity>.toShippingAddressDtos() = map { it.toDto() }
 fun OrderDto.toEntity() = OrderEntity(
-    id = id,
     userId = userId,
     cartItemsIds = cartItemsIds,
     shippingAddress = shippingAddress.toEntity(),
@@ -143,7 +137,7 @@ fun OrderDto.toEntity() = OrderEntity(
     totalPrice = totalPrice,
 )
 fun OrderEntity.toDto() = OrderDto(
-    id = id,
+    id = id?:"",
     userId = userId,
     cartItemsIds = cartItemsIds,
     shippingAddress = shippingAddress.toDto(),

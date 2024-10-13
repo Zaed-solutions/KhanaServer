@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 @Document(collection = "coupons")
 data class CouponEntity(
     @Id
-    val id: String = "",
+    val id: String? = null,
     val title: String = "",
     val description: String = "",
     val code: String = "",

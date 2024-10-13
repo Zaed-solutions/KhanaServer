@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document
 @Document(collection = "Advertisements")
 data class AdvertisementEntity(
     @Id
-    val id: String="",
+    val id: String?=null,
     val title: String="",
     val description: String="",
     val backgroundImageUrl: String="",
