@@ -12,7 +12,7 @@ data class OrderEntity(
     @Id
     val id: String? = null,
     val userId: String = "",
-    val cartItemsIds: List<String> = emptyList(),
+    val cartItems: List<CartItemEntity> = emptyList(),
     val shippingAddress: ShippingAddressEntity = ShippingAddressEntity(),
     val shippingType: String = ShippingType.ECONOMY.title,
     val paymentStatus: String = PaymentStatus.NOT_SET.name,
