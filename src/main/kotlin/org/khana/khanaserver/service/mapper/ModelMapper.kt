@@ -3,7 +3,6 @@ package org.khana.khanaserver.service.mapper
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone.Companion.UTC
 import kotlinx.datetime.toInstant
-import org.bson.types.ObjectId
 import org.khana.khanaserver.data.entity.*
 import org.khana.khanaserver.service.model.*
 import org.khana.khanaserver.util.LocalDateTimeUtil.now
@@ -34,6 +33,7 @@ fun CategoryEntity.toCategoryDto() = CategoryDto(
     categoryImage = this.categoryImage,
     categoryTitle = this.categoryTitle,
 )
+
 fun UserDto.toUserEntity() = UserEntity(
     id = id,
     createdAt = LocalDateTime.now().toInstant(UTC).toEpochMilliseconds(),
@@ -44,8 +44,9 @@ fun UserDto.toUserEntity() = UserEntity(
     providerName = providerName,
     phoneNumber = phoneNumber,
 )
+
 fun UserEntity.toUserDto() = UserDto(
-    id =id,
+    id = id,
     username = username,
     email = email,
     avatar = avatar,
@@ -53,6 +54,7 @@ fun UserEntity.toUserDto() = UserDto(
     providerName = providerName,
     createdAt = createdAt,
 )
+
 fun ProductDto.toProductEntity() = ProductEntity(
     name = name,
     rating = rating,
@@ -65,8 +67,9 @@ fun ProductDto.toProductEntity() = ProductEntity(
     basePrice = basePrice,
     isAvailable = isAvailable,
 )
+
 fun ProductEntity.toProductDto() = ProductDto(
-    id = id?:"",
+    id = id ?: "",
     name = name,
     rating = rating,
     thumbnailImageLink = thumbnailImageLink,
@@ -78,8 +81,9 @@ fun ProductEntity.toProductDto() = ProductDto(
     basePrice = basePrice,
     isAvailable = isAvailable,
 )
+
 fun CartItemEntity.toCartItemDto() = CartItemDto(
-    id = id?:"",
+    id = id ?: "",
     userId = userId,
     productId = productId,
     productName = productName,
@@ -90,7 +94,21 @@ fun CartItemEntity.toCartItemDto() = CartItemDto(
     appliedDiscountPercentage = appliedDiscountPercentage,
     quantity = quantity,
 )
+
+fun CartItemDto.toCartItemEntity() = CartItemEntity(
+    userId = userId,
+    productId = productId,
+    productName = productName,
+    productThumbnail = productThumbnail,
+    productColor = productColor,
+    productSize = productSize,
+    productBasePrice = productBasePrice,
+    appliedDiscountPercentage = appliedDiscountPercentage,
+    quantity = quantity,
+)
+
 fun List<CartItemEntity>.toCartItemsDto() = map { it.toCartItemDto() }
+fun List<CartItemDto>.toCartItemsEntities() = map { it.toCartItemEntity() }
 fun CouponDto.toEntity() = CouponEntity(
     title = title,
     description = description,
@@ -99,8 +117,9 @@ fun CouponDto.toEntity() = CouponEntity(
     maxAmount = maxAmount,
     minAmount = minAmount,
 )
+
 fun CouponEntity.toDto() = CouponDto(
-    id = id?:"",
+    id = id ?: "",
     title = title,
     description = description,
     code = code,
@@ -108,6 +127,7 @@ fun CouponEntity.toDto() = CouponDto(
     maxAmount = maxAmount,
     minAmount = minAmount,
 )
+
 fun List<CouponEntity>.toCouponDtos() = map { it.toDto() }
 fun ShippingAddressDto.toEntity() = ShippingAddressEntity(
     userId = userId,
@@ -117,8 +137,9 @@ fun ShippingAddressDto.toEntity() = ShippingAddressEntity(
     addressLine = addressLine,
     phoneNumber = phoneNumber,
 )
+
 fun ShippingAddressEntity.toDto() = ShippingAddressDto(
-    id = id?:"",
+    id = id ?: "",
     userId = userId,
     title = title,
     country = country,
@@ -126,24 +147,27 @@ fun ShippingAddressEntity.toDto() = ShippingAddressDto(
     addressLine = addressLine,
     phoneNumber = phoneNumber,
 )
+
 fun List<ShippingAddressEntity>.toShippingAddressDtos() = map { it.toDto() }
 fun OrderDto.toEntity() = OrderEntity(
     userId = userId,
-    cartItemsIds = cartItemsIds,
+    cartItems = cartItems.toCartItemsEntities(),
     shippingAddress = shippingAddress.toEntity(),
     shippingType = shippingType,
     paymentStatus = paymentStatus,
     orderStatus = orderStatus,
     totalPrice = totalPrice,
 )
+
 fun OrderEntity.toDto() = OrderDto(
-    id = id?:"",
+    id = id ?: "",
     userId = userId,
-    cartItemsIds = cartItemsIds,
+    cartItems = cartItems.toCartItemsDto(),
     shippingAddress = shippingAddress.toDto(),
     shippingType = shippingType,
     paymentStatus = paymentStatus,
     orderStatus = orderStatus,
     totalPrice = totalPrice,
 )
+
 fun List<OrderEntity>.toOrderDtos() = map { it.toDto() }
