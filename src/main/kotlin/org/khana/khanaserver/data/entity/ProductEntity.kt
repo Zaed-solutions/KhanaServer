@@ -14,6 +14,7 @@ data class ProductEntity(
     val id: String? = null,
     val name: String = "",
     val rating: Float = 0f,
+    val reviewCount: Int = 0,
     val thumbnailImageLink: String = "",
     val previewImagesLinks: List<String> = emptyList(),
     val category: CategoryEntity = CategoryEntity(),

@@ -4,6 +4,7 @@ import org.khana.khanaserver.data.response.GenericResponse
 import org.khana.khanaserver.service.ProductService
 import org.khana.khanaserver.service.model.ProductDto
 import org.khana.khanaserver.service.model.ProductFilter
+import org.khana.khanaserver.service.model.ProductReviewDto
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -117,5 +118,10 @@ class ProductController(
         message = "Success",
         data = productService.searchProductsByName(name)
     )
-
+    @PostMapping("addProductReview")
+    fun addProductReview(@RequestBody review: ProductReviewDto) = GenericResponse(
+        code = 200,
+        message = "Success",
+        data = productService.addProductReview(review)
+    )
 }

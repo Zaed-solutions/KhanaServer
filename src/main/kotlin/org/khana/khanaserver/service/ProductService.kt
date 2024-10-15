@@ -2,6 +2,7 @@ package org.khana.khanaserver.service
 
 import org.khana.khanaserver.service.model.ProductDto
 import org.khana.khanaserver.service.model.ProductFilter
+import org.khana.khanaserver.service.model.ProductReviewDto
 
 interface ProductService {
     fun getAll(): List<ProductDto>
@@ -18,4 +19,6 @@ interface ProductService {
     fun checkIfIsProductWishlisted(userId: String, productId: String): Boolean
     fun getWishlistedProductsByUserId(userId: String): List<ProductDto>
     fun searchProductsByName(name: String): List<ProductDto>
+    fun addProductReview(review: ProductReviewDto)
+    fun updateProductRating(productId: String, rating: Int)
 }
