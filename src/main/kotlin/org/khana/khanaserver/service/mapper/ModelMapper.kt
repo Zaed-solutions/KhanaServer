@@ -58,6 +58,7 @@ fun UserEntity.toUserDto() = UserDto(
 fun ProductDto.toProductEntity() = ProductEntity(
     name = name,
     rating = rating,
+    reviewCount = reviewCount,
     thumbnailImageLink = thumbnailImageLink,
     previewImagesLinks = previewImagesLinks,
     category = category.toCategoryEntity(),
@@ -66,12 +67,16 @@ fun ProductDto.toProductEntity() = ProductEntity(
     availableColors = availableColors,
     basePrice = basePrice,
     isAvailable = isAvailable,
+    purchaseCount = purchaseCount,
+    brand = brand,
+    gender = gender
 )
 
 fun ProductEntity.toProductDto() = ProductDto(
     id = id ?: "",
     name = name,
     rating = rating,
+    reviewCount = reviewCount,
     thumbnailImageLink = thumbnailImageLink,
     previewImagesLinks = previewImagesLinks,
     category = category.toCategoryDto(),
@@ -80,6 +85,9 @@ fun ProductEntity.toProductDto() = ProductDto(
     availableColors = availableColors,
     basePrice = basePrice,
     isAvailable = isAvailable,
+    purchaseCount = purchaseCount,
+    brand = brand,
+    gender = gender
 )
 
 fun CartItemEntity.toCartItemDto() = CartItemDto(
@@ -171,3 +179,17 @@ fun OrderEntity.toDto() = OrderDto(
 )
 
 fun List<OrderEntity>.toOrderDtos() = map { it.toDto() }
+
+fun ProductReviewDto.toEntity() = ProductReviewEntity(
+    userId = userId,
+    productId = productId,
+    rating = rating,
+    review = review,
+)
+fun ProductReviewEntity.toDto() = ProductReviewDto(
+    id = id?:"",
+    userId = userId,
+    productId = productId,
+    rating = rating,
+    review = review,
+)
