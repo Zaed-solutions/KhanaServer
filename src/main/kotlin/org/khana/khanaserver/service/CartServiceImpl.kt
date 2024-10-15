@@ -1,17 +1,20 @@
 package org.khana.khanaserver.service
 
-import org.bson.types.ObjectId
 import org.khana.khanaserver.data.entity.CartItemEntity
 import org.khana.khanaserver.repository.CartRepository
 import org.khana.khanaserver.repository.CouponRepository
+import org.khana.khanaserver.repository.OrderRepository
 import org.khana.khanaserver.repository.ProductRepository
+import org.khana.khanaserver.service.mapper.toCartItemDto
 import org.khana.khanaserver.service.mapper.toCartItemsDto
+import org.khana.khanaserver.service.model.CartItemDto
 import org.springframework.stereotype.Service
 
 @Service
 class CartServiceImpl(
     private val cartRepository: CartRepository,
     private val couponRepository: CouponRepository,
+    private val orderRepository: OrderRepository,
     private val productRepository: ProductRepository
 ) : CartService {
     override fun applyPromoCode(promoCode: String, cartItemsIds: List<String>): Float {
@@ -34,18 +37,15 @@ class CartServiceImpl(
     override fun fetchUserCartItems(userId: String) = cartRepository.findByUserId(userId).toCartItemsDto()
 
     override fun addItemToCart(
-        productId: String,
-        userId: String,
-        productColor: org.khana.khanaserver.service.model.Color,
-        productSize: String
+        productId: String, userId: String, productColor: org.khana.khanaserver.service.model.Color, productSize: String
     ) {
         val product = productRepository.findById(productId).orElseThrow()
-        val cartItems =cartRepository.findByUserId(userId)
-        if(productId in cartItems.map { it.productId }){
-            cartItems.first { it.productId == productId }.let{
+        val cartItems = cartRepository.findByUserId(userId)
+        if (productId in cartItems.map { it.productId }) {
+            cartItems.first { it.productId == productId }.let {
                 cartRepository.save(it.copy(quantity = it.quantity.inc()))
             }
-        }else {
+        } else {
             cartRepository.save(
                 CartItemEntity(
                     productId = productId,
@@ -62,7 +62,10 @@ class CartServiceImpl(
     }
 
     override fun fetchDeliveryFee(userId: String): Float {
-        //TODO
-        return 0f
+        return 25f
+    }
+
+    override fun fetchOrderedCartItem(orderId: String, cartItemId: String): CartItemDto {
+        return orderRepository.findById(orderId).orElseThrow().cartItems.first { it.id == cartItemId }.toCartItemDto()
     }
 }
