@@ -1,7 +1,7 @@
 package org.khana.khanaserver.service.model
 
 enum class OrderStatus {
-    PENDING,
+    AWAITING_CONFIRMATION,
     CONFIRMED,
     SHIPPED,
     DELIVERED,

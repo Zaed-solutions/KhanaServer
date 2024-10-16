@@ -165,6 +165,13 @@ fun OrderDto.toEntity() = OrderEntity(
     paymentStatus = paymentStatus,
     orderStatus = orderStatus,
     totalPrice = totalPrice,
+    expectedDeliveryEpochSeconds = expectedDeliveryEpochSeconds,
+    trackingId = trackingId,
+    cancelledEpochSeconds = cancelledEpochSeconds,
+    createdAtEpochSeconds = createdAtEpochSeconds,
+    confirmedEpochSeconds = confirmedEpochSeconds,
+    shippedEpochSeconds = shippedEpochSeconds,
+    deliveredEpochSeconds = deliveredEpochSeconds
 )
 
 fun OrderEntity.toDto() = OrderDto(
@@ -176,6 +183,13 @@ fun OrderEntity.toDto() = OrderDto(
     paymentStatus = paymentStatus,
     orderStatus = orderStatus,
     totalPrice = totalPrice,
+    expectedDeliveryEpochSeconds = expectedDeliveryEpochSeconds,
+    trackingId = trackingId,
+    createdAtEpochSeconds = createdAtEpochSeconds,
+    cancelledEpochSeconds = cancelledEpochSeconds,
+    confirmedEpochSeconds = confirmedEpochSeconds,
+    shippedEpochSeconds = shippedEpochSeconds,
+    deliveredEpochSeconds = deliveredEpochSeconds
 )
 
 fun List<OrderEntity>.toOrderDtos() = map { it.toDto() }
