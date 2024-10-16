@@ -16,6 +16,18 @@ class OrderController (
         message = "Success",
         data = orderService.fetchByUserId(userId)
     )
+    @GetMapping("/byId")
+    fun fetchOrderById(@RequestParam orderId: String) = GenericResponse(
+        code = 200,
+        message = "Success",
+        data = orderService.fetchById(orderId)
+    )
+    @PostMapping("/updateStatus")
+    fun updateOrderStatus(@RequestParam orderId: String, @RequestParam status: String) = GenericResponse(
+        code = 200,
+        message = "Success",
+        data = orderService.updateOrderStatus(orderId, status)
+    )
     @PostMapping("/insert")
     fun placeOrder(@RequestBody order: OrderDto) = GenericResponse(
         code = 200,

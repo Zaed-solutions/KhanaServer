@@ -1,5 +1,6 @@
 package org.khana.khanaserver.data.entity
 
+import kotlinx.datetime.Clock
 import org.khana.khanaserver.service.model.OrderStatus
 import org.khana.khanaserver.service.model.PaymentStatus
 import org.khana.khanaserver.service.model.ShippingAddressDto
@@ -16,6 +17,13 @@ data class OrderEntity(
     val shippingAddress: ShippingAddressEntity = ShippingAddressEntity(),
     val shippingType: String = ShippingType.ECONOMY.title,
     val paymentStatus: String = PaymentStatus.NOT_SET.name,
-    val orderStatus: String = OrderStatus.PENDING.name,
+    val orderStatus: String = OrderStatus.AWAITING_CONFIRMATION.name,
     val totalPrice: Float = 0f,
+    val expectedDeliveryEpochSeconds: Long = 0,
+    val trackingId: String = "",
+    val createdAtEpochSeconds: Long = Clock.System.now().epochSeconds,
+    val cancelledEpochSeconds: Long = 0,
+    val confirmedEpochSeconds: Long = 0,
+    val shippedEpochSeconds: Long = 0,
+    val deliveredEpochSeconds: Long = 0,
 )
