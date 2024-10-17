@@ -39,4 +39,4 @@ out/
 ### Kotlin ###
 .kotlin
 
-/src/main/resources/static/khana-d3a45-firebase-adminsdk-jqy36-4560ebf1a8.json
+src/main/resources/static/khana-d3a45-firebase-adminsdk-jqy36-4560ebf1a8.json
