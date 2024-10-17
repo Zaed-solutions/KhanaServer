@@ -1,8 +1,10 @@
 package org.khana.khanaserver.controller;
 
-import lombok.AllArgsConstructor
+import org.khana.khanaserver.service.EmailService
+import org.khana.khanaserver.service.ResetTokenService
 import org.khana.khanaserver.data.entity.UserEntity
 import org.khana.khanaserver.data.response.GenericResponse
+import org.khana.khanaserver.service.FirebaseService
 import org.khana.khanaserver.service.UserService
 import org.khana.khanaserver.service.model.UserDto
 import org.springframework.web.bind.annotation.*
@@ -12,8 +14,10 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/users")
 class UserController(
     val userService: UserService,
+    private val emailService: EmailService,
+    private val resetTokenService: ResetTokenService,
+    val firebaseService: FirebaseService // Assume this will handle Firebase password reset
 ) {
-
 
     @GetMapping("/all")
     fun getAllUsers() =
@@ -27,9 +31,9 @@ class UserController(
     fun insertUser(@RequestBody user: UserDto): GenericResponse<Unit> {
         println(user)
         userService.saveNewUser(user)
-        val result= GenericResponse(code = 200, message = "Success", data = Unit)
+        val result = GenericResponse(code = 200, message = "Success", data = Unit)
         println(result)
-        return  result ;
+        return result;
     }
 
     @GetMapping("/byId")
@@ -49,6 +53,39 @@ class UserController(
     fun deleteUserById(@RequestBody id: String): GenericResponse<Void> {
         userService.deleteUser(id)
         return GenericResponse(200, "Success", null)
+    }
+
+    @GetMapping("/request-reset-password")
+    fun requestPasswordReset(@RequestParam email: String): String {
+
+        val resetCode = emailService.generateResetCode()
+
+        resetTokenService.saveResetCode(email, resetCode)
+
+        // Send email with the reset code
+        emailService.sendResetCode(email, resetCode)
+
+        return "Password reset code sent to $email."
+    }
+
+    @PostMapping("/reset-password")
+    fun resetPassword(
+        @RequestParam email: String,
+        @RequestParam newPassword: String
+    ): Boolean {
+            firebaseService.resetPassword(email, newPassword)
+            return true
+    }
+    @PostMapping("/verify-rest-code")
+    fun verifyCode(
+        @RequestParam email: String,
+        @RequestParam resetCode: String,
+    ): Boolean {
+        if (resetTokenService.validateResetCode(email, resetCode)) {
+            return true
+        } else {
+            return false
+        }
     }
 }
 
