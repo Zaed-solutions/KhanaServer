@@ -6,7 +6,7 @@ import kotlinx.datetime.toInstant
 import org.khana.khanaserver.data.entity.*
 import org.khana.khanaserver.service.model.*
 import org.khana.khanaserver.util.LocalDateTimeUtil.now
-import org.zaed.khana.data.model.ContactInfoDto
+import org.khana.khanaserver.service.model.ContactInfoDto
 
 fun List<AdvertisementEntity>.toAdvertisementsDto() = map { it.toAdvertisementDto() }
 
@@ -226,3 +226,14 @@ fun ContactInfoDto.toEntity() = ContactInfoEntity(
     twitterProfiles = twitterProfiles,
     instagramPages = instagramPages,
 )
+fun FAQDto.toEntity() = FAQEntity(
+    tag = tag,
+    question = question,
+    answer = answer
+)
+fun FAQEntity.toDto() = FAQDto(
+    tag = tag,
+    question = question,
+    answer = answer
+)
+fun List<FAQEntity>.toFAQDtos() = map { it.toDto() }

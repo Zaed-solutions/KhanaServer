@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import org.zaed.khana.data.model.ContactInfoDto
+import org.khana.khanaserver.service.model.ContactInfoDto
+import org.khana.khanaserver.service.model.FAQDto
 
 @RestController
 @RequestMapping("/support")
@@ -25,5 +26,17 @@ class SupportController(
         code = 200,
         message = "Success",
         data = supportService.insertContactInfo(contactInfo)
+    )
+    @GetMapping("/faqs")
+    fun fetchFAQs() = GenericResponse(
+        code = 200,
+        message = "Success",
+        data = supportService.fetchFAQs(),
+    )
+    @PostMapping("/insertFAQ")
+    fun insertFAQ(@RequestBody faq: FAQDto) = GenericResponse(
+        code = 200,
+        message = "Success",
+        data = supportService.insertFAQ(faq)
     )
 }

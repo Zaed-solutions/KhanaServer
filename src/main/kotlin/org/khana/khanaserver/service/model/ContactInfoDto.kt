@@ -1,4 +1,4 @@
-package org.zaed.khana.data.model
+package org.khana.khanaserver.service.model
 
 data class ContactInfoDto(
     val customerSupportLines: List<String> = emptyList(),
