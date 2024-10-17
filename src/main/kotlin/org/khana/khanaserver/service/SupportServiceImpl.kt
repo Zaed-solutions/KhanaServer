@@ -7,7 +7,9 @@ import org.khana.khanaserver.service.mapper.toEntity
 import org.khana.khanaserver.service.mapper.toFAQDtos
 import org.khana.khanaserver.service.model.ContactInfoDto
 import org.khana.khanaserver.service.model.FAQDto
+import org.springframework.stereotype.Service
 
+@Service
 class SupportServiceImpl(
     private val faqRepository: FAQRepository,
     private val contactInfoRepository: ContactInfoRepository
