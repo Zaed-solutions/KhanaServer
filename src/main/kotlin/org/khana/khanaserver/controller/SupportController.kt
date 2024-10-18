@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.khana.khanaserver.service.model.ContactInfoDto
 import org.khana.khanaserver.service.model.FAQDto
+import org.khana.khanaserver.service.model.LegalInfoDto
 
 @RestController
 @RequestMapping("/support")
@@ -26,6 +27,18 @@ class SupportController(
         code = 200,
         message = "Success",
         data = supportService.insertContactInfo(contactInfo)
+    )
+    @GetMapping("/legalInfo")
+    fun fetchLegalInfo() = GenericResponse(
+        code = 200,
+        message = "Success",
+        data = supportService.fetchLegalInfo(),
+    )
+    @PostMapping("/insertLegalInfo")
+    fun insertLegalInfo(@RequestBody legalInfo: LegalInfoDto) = GenericResponse(
+        code = 200,
+        message = "Success",
+        data = supportService.insertLegalInfo(legalInfo)
     )
     @GetMapping("/faqs")
     fun fetchFAQs() = GenericResponse(

@@ -7,6 +7,7 @@ import org.khana.khanaserver.data.entity.*
 import org.khana.khanaserver.service.model.*
 import org.khana.khanaserver.util.LocalDateTimeUtil.now
 import org.khana.khanaserver.service.model.ContactInfoDto
+import org.zaed.khana.data.model.LegalInfoEntity
 
 fun List<AdvertisementEntity>.toAdvertisementsDto() = map { it.toAdvertisementDto() }
 
@@ -237,3 +238,11 @@ fun FAQEntity.toDto() = FAQDto(
     answer = answer
 )
 fun List<FAQEntity>.toFAQDtos() = map { it.toDto() }
+fun LegalInfoDto.toEntity() = LegalInfoEntity(
+    privacyPolicy = privacyPolicy,
+    termsAndConditions = termsAndConditions,
+)
+fun LegalInfoEntity.toDto() = LegalInfoDto(
+    privacyPolicy = privacyPolicy,
+    termsAndConditions = termsAndConditions
+)
