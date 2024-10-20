@@ -28,6 +28,12 @@ class OrderController (
         message = "Success",
         data = orderService.updateOrderStatus(orderId, status)
     )
+    @PostMapping("/confirmPayment")
+    fun confirmOrderPayment(@RequestParam orderId: String, @RequestParam paymentMethod: String) = GenericResponse(
+        code = 200,
+        message = "Success",
+        data = orderService.confirmOrderPayment(orderId, paymentMethod)
+    )
     @PostMapping("/insert")
     fun placeOrder(@RequestBody order: OrderDto) = GenericResponse(
         code = 200,

@@ -7,3 +7,7 @@ enum class PaymentStatus {
     PAYMENT_SUCCESSFUL,
     PAYMENT_PENDING
 }
+enum class PaymentMethods {
+    CASH_ON_DELIVERY,
+    PAYPAL,
+}
