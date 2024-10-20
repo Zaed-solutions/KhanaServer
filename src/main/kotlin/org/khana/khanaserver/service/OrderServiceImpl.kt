@@ -1,17 +1,21 @@
 package org.khana.khanaserver.service
 
 import kotlinx.datetime.Clock
+import org.khana.khanaserver.repository.CartRepository
 import org.khana.khanaserver.repository.OrderRepository
 import org.khana.khanaserver.service.mapper.toDto
 import org.khana.khanaserver.service.mapper.toEntity
 import org.khana.khanaserver.service.mapper.toOrderDtos
 import org.khana.khanaserver.service.model.OrderDto
 import org.khana.khanaserver.service.model.OrderStatus
+import org.khana.khanaserver.service.model.PaymentMethods
+import org.khana.khanaserver.service.model.PaymentStatus
 import org.springframework.stereotype.Service
 
 @Service
 class OrderServiceImpl(
-    private val orderRepository: OrderRepository
+    private val orderRepository: OrderRepository,
+    private val cartRepository: CartRepository,
 ) : OrderService {
     override fun getAll(): List<OrderDto> = orderRepository.findAll().toOrderDtos()
 
@@ -24,6 +28,8 @@ class OrderServiceImpl(
         val orderId = order.id
         val trackingId = "TRK"+orderId?.substring((orderId.length.div(2)), orderId.length)
         orderRepository.save(order.copy(trackingId = trackingId))
+        val cartItemsIds = orderDto.cartItems.map { it.id }
+        cartRepository.deleteAllById(cartItemsIds)
         return orderId?:""
     }
 
@@ -36,5 +42,14 @@ class OrderServiceImpl(
             OrderStatus.DELIVERED.name -> { orderRepository.save(order.copy(orderStatus = status, deliveredEpochSeconds = Clock.System.now().epochSeconds)) }
             OrderStatus.CANCELLED.name -> { orderRepository.save(order.copy(orderStatus = status)) }
         }
+    }
+
+    override fun confirmOrderPayment(orderId: String, paymentMethod: String) {
+        val paymentStatus = when(PaymentMethods.valueOf(paymentMethod)){
+            PaymentMethods.CASH_ON_DELIVERY -> PaymentStatus.PAYMENT_ON_DELIVERY.name
+            else -> "Unknown"
+        }
+        val order = orderRepository.findById(orderId).orElseThrow()
+        orderRepository.save(order.copy(orderStatus = OrderStatus.CONFIRMED.name, paymentStatus = paymentStatus))
     }
 }

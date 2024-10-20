@@ -9,4 +9,5 @@ interface OrderService {
     fun insertOne(orderDto: OrderDto): String
     fun deleteOne(orderId: String)
     fun updateOrderStatus(orderId: String, status: String)
+    fun confirmOrderPayment(orderId: String, paymentMethod: String)
 }
