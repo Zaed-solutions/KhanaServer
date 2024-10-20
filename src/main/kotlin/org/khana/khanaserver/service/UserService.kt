@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service
 @AllArgsConstructor
 class UserService(
     private val userRepository: UserRepository
-){
+) {
 
 
     fun saveNewUser(user: UserDto) {
@@ -41,7 +41,8 @@ class UserService(
         userRepository.findById(id).orElseThrow {
             UserException(
                 message = "User with id $id not found",
-                code = HttpStatus.NOT_FOUND.value()            )
+                code = HttpStatus.NOT_FOUND.value()
+            )
         }
         userRepository.save(user)
     }
@@ -50,8 +51,16 @@ class UserService(
         userRepository.findById(id).orElseThrow {
             UserException(
                 message = "User with id $id not found",
-                code = HttpStatus.NOT_FOUND.value()            )
+                code = HttpStatus.NOT_FOUND.value()
+            )
         }
         userRepository.deleteById(id)
+    }
+
+    fun updateByEmail(user: UserDto) {
+        val result = userRepository.findByEmail(user.email)
+        if (result != null) {
+            userRepository.save(result.copy(username = user.username, avatar = user.avatar))
+        }
     }
 }
