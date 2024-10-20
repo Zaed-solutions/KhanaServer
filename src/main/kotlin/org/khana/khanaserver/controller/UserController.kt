@@ -35,6 +35,14 @@ class UserController(
         println(result)
         return result;
     }
+    @PutMapping("/updateByEmail")
+    fun updateUser(@RequestBody user: UserDto): GenericResponse<Unit> {
+        println(user)
+        userService.updateByEmail(user)
+        val result = GenericResponse(code = 200, message = "Success", data = Unit)
+        println(result)
+        return result;
+    }
 
     @GetMapping("/byId")
     fun getUserById(@RequestParam id: String): GenericResponse<UserEntity> {
@@ -55,9 +63,9 @@ class UserController(
         return GenericResponse(200, "Success", null)
     }
 
-    @GetMapping("/request-reset-password")
-    fun requestPasswordReset(@RequestParam email: String): String {
-
+    @GetMapping("/sendOtp")
+    fun requestPasswordReset(@RequestParam("email") email: String): GenericResponse<Boolean> {
+        println()
         val resetCode = emailService.generateResetCode()
 
         resetTokenService.saveResetCode(email, resetCode)
@@ -65,7 +73,7 @@ class UserController(
         // Send email with the reset code
         emailService.sendResetCode(email, resetCode)
 
-        return "Password reset code sent to $email."
+        return GenericResponse(200, "Success", true)
     }
 
     @PostMapping("/reset-password")
@@ -76,15 +84,15 @@ class UserController(
             firebaseService.resetPassword(email, newPassword)
             return true
     }
-    @PostMapping("/verify-rest-code")
+    @GetMapping("/verifyOtp")
     fun verifyCode(
         @RequestParam email: String,
-        @RequestParam resetCode: String,
-    ): Boolean {
-        if (resetTokenService.validateResetCode(email, resetCode)) {
-            return true
+        @RequestParam otp: String,
+    ): GenericResponse<Boolean> {
+        return if (resetTokenService.validateResetCode(email, otp)) {
+            GenericResponse(200, "Success", true)
         } else {
-            return false
+            GenericResponse(200, "Success", false)
         }
     }
 }
