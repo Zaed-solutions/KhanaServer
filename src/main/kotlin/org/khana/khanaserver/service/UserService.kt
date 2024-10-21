@@ -63,4 +63,9 @@ class UserService(
             userRepository.save(result.copy(username = user.username, avatar = user.avatar))
         }
     }
+
+    fun updateUserAvatar(userId: String, avatarUrl: String) {
+        val user = userRepository.findById(userId).orElseThrow()
+        userRepository.save(user.copy(avatar = avatarUrl))
+    }
 }

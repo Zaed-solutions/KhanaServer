@@ -44,6 +44,13 @@ class UserController(
         return result;
     }
 
+    @PutMapping("/updateUserAvatar")
+    fun updateUserAvatar(@RequestParam userId: String, avatarUrl: String) = GenericResponse(
+        code = 200,
+        message = "Success",
+        data = userService.updateUserAvatar(userId, avatarUrl)
+    )
+
     @GetMapping("/byId")
     fun getUserById(@RequestParam id: String): GenericResponse<UserEntity> {
         println("id: $id")
