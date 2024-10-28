@@ -9,5 +9,5 @@ interface CartService {
     fun fetchUserCartItems(userId: String):List<CartItemDto>
     fun addItemToCart(productId: String, userId: String, productColor: org.khana.khanaserver.service.model.Color, productSize: String)
     fun fetchDeliveryFee(userId: String):Float
-    fun fetchOrderedCartItem(orderId: String, cartItemId: String): CartItemDto
+    fun fetchOrderedCartItem(orderId: String, productId: String): CartItemDto
 }

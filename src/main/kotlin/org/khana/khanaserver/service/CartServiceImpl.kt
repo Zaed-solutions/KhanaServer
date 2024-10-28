@@ -65,7 +65,7 @@ class CartServiceImpl(
         return 25f
     }
 
-    override fun fetchOrderedCartItem(orderId: String, cartItemId: String): CartItemDto {
-        return orderRepository.findById(orderId).orElseThrow().cartItems.first { it.id == cartItemId }.toCartItemDto()
+    override fun fetchOrderedCartItem(orderId: String, productId: String): CartItemDto {
+        return orderRepository.findById(orderId).orElseThrow().cartItems.first { it.productId == productId }.toCartItemDto()
     }
 }
