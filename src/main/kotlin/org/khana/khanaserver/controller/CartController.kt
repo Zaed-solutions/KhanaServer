@@ -63,10 +63,10 @@ class CartController(
     )
 
     @GetMapping("/fetchOrderedCartItem")
-    fun fetchOrderedCartItem(@RequestParam orderId: String, @RequestParam cartItemId: String) = GenericResponse(
+    fun fetchOrderedCartItem(@RequestParam orderId: String, @RequestParam productId: String) = GenericResponse(
         code = 200,
         message = "Success",
-        data = cartService.fetchOrderedCartItem(orderId, cartItemId)
+        data = cartService.fetchOrderedCartItem(orderId, productId)
     )
 
 }

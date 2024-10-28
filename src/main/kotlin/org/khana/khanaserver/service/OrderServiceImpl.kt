@@ -6,11 +6,10 @@ import org.khana.khanaserver.repository.OrderRepository
 import org.khana.khanaserver.service.mapper.toDto
 import org.khana.khanaserver.service.mapper.toEntity
 import org.khana.khanaserver.service.mapper.toOrderDtos
-import org.khana.khanaserver.service.model.OrderDto
-import org.khana.khanaserver.service.model.OrderStatus
-import org.khana.khanaserver.service.model.PaymentMethods
-import org.khana.khanaserver.service.model.PaymentStatus
+import org.khana.khanaserver.service.model.*
 import org.springframework.stereotype.Service
+import java.time.Duration
+import kotlin.time.Duration.Companion.days
 
 @Service
 class OrderServiceImpl(
@@ -50,6 +49,16 @@ class OrderServiceImpl(
             else -> "Unknown"
         }
         val order = orderRepository.findById(orderId).orElseThrow()
-        orderRepository.save(order.copy(orderStatus = OrderStatus.CONFIRMED.name, paymentStatus = paymentStatus))
+        val estimatedDeliveryInDays = ShippingType.entries.first{it.title == order.shippingType}.estimatedDeliveryInDays
+        val now = Clock.System.now()
+        val expectedDeliveryEpochSeconds = now.plus(estimatedDeliveryInDays.days).epochSeconds
+        orderRepository.save(
+            order.copy(
+                orderStatus = OrderStatus.CONFIRMED.name,
+                confirmedEpochSeconds = now.epochSeconds,
+                paymentStatus = paymentStatus,
+                expectedDeliveryEpochSeconds = expectedDeliveryEpochSeconds
+            )
+        )
     }
 }
